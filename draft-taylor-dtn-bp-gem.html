@@ -7,7 +7,7 @@
 <title>Generic Encapsulation of Messages for Bundle Protocol</title>
 <meta content="Rick Taylor" name="author">
 <meta content="
-       As the availability of Bundle Protocol version 7 [!RFC9171] becomes more pervasive, there is increasing need to port existing network services designed for the terrestrial Internet to function correctly and efficiently over Bundle Protocol.  This document introduces 2 modes:  Tunnel mode, whereby opaque messages are encapsulated and forwarded from an ingress gateway, and decapsulated at an egress gateway, across a Bundle Protocol segment of the end to end path; and Transport mode, whereby application messages are delivered from host to host using the Bundle Protocol as the end-to-end message transport protocol. 
+       As the availability of Bundle Protocol version 7 {!RFC9171} becomes more pervasive, there is increasing need to port existing network services designed for the terrestrial Internet to function correctly and efficiently over Bundle Protocol.  This document describes a generic mechanism, in terms of abstract data fields and behaviours, to transport a message-based application protocol over the Bundle Protocol. 
     " name="description">
 <meta content="xml2rfc 3.22.0" name="generator">
 <meta content="DTN" name="keyword">
@@ -1046,7 +1046,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <time datetime="2024-07-24" class="published">24 July 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
-<dd class="intended-status">Standards Track</dd>
+<dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
 <dd class="expires"><time datetime="2025-01-25">25 January 2025</time></dd>
 <dt class="label-authors">Author:</dt>
@@ -1061,7 +1061,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <h1 id="title">Generic Encapsulation of Messages for Bundle Protocol</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">As the availability of Bundle Protocol version 7 [!RFC9171] becomes more pervasive, there is increasing need to port existing network services designed for the terrestrial Internet to function correctly and efficiently over Bundle Protocol.  This document introduces 2 modes:  Tunnel mode, whereby opaque messages are encapsulated and forwarded from an ingress gateway, and decapsulated at an egress gateway, across a Bundle Protocol segment of the end to end path; and Transport mode, whereby application messages are delivered from host to host using the Bundle Protocol as the end-to-end message transport protocol.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">As the availability of Bundle Protocol version 7 {!RFC9171} becomes more pervasive, there is increasing need to port existing network services designed for the terrestrial Internet to function correctly and efficiently over Bundle Protocol.  This document describes a generic mechanism, in terms of abstract data fields and behaviours, to transport a message-based application protocol over the Bundle Protocol.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1137,7 +1137,29 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-generic-encapsulation" class="internal xref">Generic encapsulation</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-abstract-information-fields" class="internal xref">Abstract information fields</a></p>
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-abstract-information-fields" class="internal xref">Abstract information fields</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1.2.1">
+                    <p id="section-toc.1-1.3.2.1.2.1.1" class="keepWithNext"><a href="#section-3.1.1" class="auto internal xref">3.1.1</a>.  <a href="#name-identifiers" class="internal xref">Identifiers</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-generic-sequencing" class="internal xref">Generic Sequencing</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-generic-reliability" class="internal xref">Generic Reliability</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.1">
+                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-acknowledgements" class="internal xref">Acknowledgements</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.2">
+                    <p id="section-toc.1-1.3.2.3.2.2.1"><a href="#section-3.3.2" class="auto internal xref">3.3.2</a>.  <a href="#name-unsequenced-acknowledgement" class="internal xref">Unsequenced Acknowledgement</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.3">
+                    <p id="section-toc.1-1.3.2.3.2.3.1"><a href="#section-3.3.3" class="auto internal xref">3.3.3</a>.  <a href="#name-sequenced-acknowledgement" class="internal xref">Sequenced Acknowledgement</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -1165,8 +1187,8 @@ svg :is([fill="white"], [fill^="#fff"]) {
       <h2 id="name-introduction">
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
-<p id="section-1-1">Bundle Protocol version 7 is fundamentally a message passing protocol.  Individual messages are encapsulated as the opaque payload of bundles, and the bundles are transported across the network using just the information in the bundle envelope.  This encapsulation is sufficiently general purpose that porting existing message-based applications to use the bundle protocol is reasonably simple, and there is sufficient commonality of required behaviour that general rules can be recommended.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">The encapsulation mechanism described address the following requirements:<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-1">Bundle Protocol version 7 is fundamentally a message passing protocol.  Individual messages are encapsulated as the opaque payload of bundles, and the bundles are transported across the network using just the information in the bundle envelope.  This encapsulation is sufficiently general purpose that porting existing message-based applications to use the bundle protocol is reasonably simple, and there is sufficient commonality of required behaviour that general rules can be recommended.  To reduce the complexity of performing such porting, this document details generic information model, rules and recommendations for the use of authors when defining an application protocol specific bundle encapsulation protocol.  The mechanisms are applicable to applications and services that exchange framed messages.  The mechanisms described are not suitable for byte-streaming applications.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">The encapsulation mechanisms described address the following requirements:<a href="#section-1-2" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-1-3">
 <li id="section-1-3.1">
           <p id="section-1-3.1.1">The delivery of application messages across a network that features Bundle Protocol as part or all of the end-to-end path.<a href="#section-1-3.1.1" class="pilcrow">¶</a></p>
@@ -1178,7 +1200,6 @@ svg :is([fill="white"], [fill^="#fff"]) {
           <p id="section-1-3.3.1">The reliable delivery of some or all messages, such that an application designed to use a reliable transport layer can continue to hold the reliability assumption when operating over Bundle Protocol.<a href="#section-1-3.3.1" class="pilcrow">¶</a></p>
 </li>
       </ol>
-<p id="section-1-4">This document provides mechanisms that are applicable to applications and services that exchange framed messages.  The mechanisms described are not suitable for byte-streaming applications.<a href="#section-1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1197,6 +1218,7 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
       <h2 id="name-generic-encapsulation">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-generic-encapsulation" class="section-name selfRef">Generic encapsulation</a>
       </h2>
+<p id="section-3-1">The mechanisms to provide the functionality above are defined in terms of operations on generic information fields below.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <div id="abstract-information-fields">
 <section id="section-3.1">
         <h3 id="name-abstract-information-fields">
@@ -1205,31 +1227,86 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <p id="section-3.1-1">In order to deliver a particular application specific message from source to destination, the following information fields must be known:<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.1-2.1">
-            <p id="section-3.1-2.1.1">MESSAGE_ID:
-The unique identifier of the message.  If two messages have the same identifier then the message content must be logically identical, such that either message may be discarded without breaking a higher-level message protocol.<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.1.1">SOURCE_ID:
+The identity of the source of the message.<a href="#section-3.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.2">
-            <p id="section-3.1-2.2.1">SOURCE_ID:
-The identity of the source of the message.<a href="#section-3.1-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.2.1">MESSAGE_ID:
+The identifier of the message, unique within the scope of SOURCE_ID.  If two messages have the same identifier then the message content must be logically identical, such that either message may be discarded without breaking a higher-level message protocol.<a href="#section-3.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.3">
-            <p id="section-3.1-2.3.1">DESTINATION_ID:
-The identity of the destination of the message.<a href="#section-3.1-2.3.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.3.1">SEQUENCE_ID (optional):
+If messages have a temporal relationship, such that one message must be processed before another, the identity of the sequence.<a href="#section-3.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.4">
-            <p id="section-3.1-2.4.1">SEQUENCE_ID (optional):
-If messages have a temporal relationship, such that one message must be processed before another, the identity of the sequence.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.4.1">SEQUENCE_NUMBER (optional) (Numeric):
+If messages have a temporal relationship, such that one message must be processed before another, the order of the message within the sequence SEQUENCE_ID.<a href="#section-3.1-2.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-3.1-2.5">
-            <p id="section-3.1-2.5.1">SEQUENCE_NUMBER (optional):
-If messages have a temporal relationship, such that one message must be processed before another, the order of the message within the sequence.<a href="#section-3.1-2.5.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-3.1-2.6">
-            <p id="section-3.1-2.6.1">ACK_REQUIRED (optional):
-If an explicit acknowledgement of the successful delivery of a message is required from the receiver.<a href="#section-3.1-2.6.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-2.5.1">IS_RELIABLE (optional) (Flag):
+If an explicit acknowledgement of the successful delivery of a message is required by the sender.<a href="#section-3.1-2.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-3.1-3">It may well be the case that some or all of these required information fields may be encoded in the application message format, or map directly to a field in the Bundle Protocol itself, but they are defined here in abstract terms in order to support the protocol specifications that follow.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+<div id="ids">
+<section id="section-3.1.1">
+          <h4 id="name-identifiers">
+<a href="#section-3.1.1" class="section-number selfRef">3.1.1. </a><a href="#name-identifiers" class="section-name selfRef">Identifiers</a>
+          </h4>
+<p id="section-3.1.1-1">The particular wire representation of an identifier is not specified, only the requirement that it <span class="bcp14">MUST</span> be able of uniquely representing a particular entity.  This may, for example, be through the concatenation of a textual representation, a numeric hash, or structured data.<a href="#section-3.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1.1-2">The uniqueness of an identifier has a scope in which it <span class="bcp14">MUST</span> be unique.  SEQUENCE_ID and MESSAGE_ID identifiers <span class="bcp14">MUST</span> be unique for a given SOURCE_ID.  SOURCE_IDs <span class="bcp14">MUST</span> be unique within the scope of all messages that may be received by a protocol agent.<a href="#section-3.1.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="generic-sequencing">
+<section id="section-3.2">
+        <h3 id="name-generic-sequencing">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-generic-sequencing" class="section-name selfRef">Generic Sequencing</a>
+        </h3>
+<p id="section-3.2-1">It may be the case that the higher-level application protocol requires that certain messages be processed in a particular order.  As Bundle Protocol does not enforce the ordering of messages, although individual Convergence Layer Adaptors may, a mechanism is defined to ensure that particular sequences of messages are delivered in order.  It should be noted that this mechanism is sufficiently flexible to allow multiple independent sequences of messages multiplexed with messages with no sequential requirements.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">To enforce an ordering between messages, every message that requires strict ordering <span class="bcp14">MUST</span> include a SEQUENCE_ID and SEQUENCE_NUMBER.  The SEQUENCE_ID identifies the particular sequence, and the SEQUENCE_NUMBER defines the order of the message within the sequence.  Although there is no strict requirement to combine sequencing with reliability, implementations <span class="bcp14">MUST</span> separate reliable sequences of messages from unreliable sequences by using different SEQUENCE_IDs.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.2-3">For each message within a given sequence, the sender assigns the SEQUENCE_ID, and attaches the SEQUENCE_NUMBER of each message as an unsigned integral number, starting at zero (0), and incrementing by one (1) with each subsequent message.   SEQUENCE_NUMBERs <span class="bcp14">MUST NOT</span> roll-over the implementation specific maximum integer value, and any protocol specification based on this document <span class="bcp14">MUST</span> specify the correct behaviour when an integer overflow would occur.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
+<p id="section-3.2-4">For each message received with a SEQUENCE_ID and SEQUENCE_NUMBER, a receiver must queue up the message until the next the expected message in the particular sequence arrives.  If the next expected SEQUENCE_NUMBER is the SEQUENCE_NUMBER of the new message, then the message is immediately delivered to the application, followed by any pending messages in sequence that are pending delivery.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+<p id="section-3.2-5">If the message sof the sequence do not have the IS_RELIABLE flag, there <span class="bcp14">MUST</span> be one or more mechanisms defined in the corresponding application protocol specification that describes how to make progress when a message in an ordered sequence fails to arrive at the receiver, such as a timeout.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="generic-reliability">
+<section id="section-3.3">
+        <h3 id="name-generic-reliability">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-generic-reliability" class="section-name selfRef">Generic Reliability</a>
+        </h3>
+<p id="section-3.3-1">Many message-based application protocols developed for the public Internet rely on the reliable delivery properties of the TCP/IP protocol.  When porting such applications, it may be too disruptive to update the application protocol to provide an acknowledgement mechanism in-band, and hence an acknowledgement mechanism is described that can be added at the encapsulation layer to provide similar reliability behaviour without requiring updates the the application protocol.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">Reliability in this case means providing the sender sufficient feedback such that, after a reasonable period of time, it can guarantee that a message was either received by the destination, or will never be received by the destination.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">In order to request such reliability, the sender <span class="bcp14">MUST</span> add the IS_RELIABLE flag to the message.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.3-4">Because the reliability mechanism relies on the retransmission of messages that are assumed to have been lost by the network, a destination may receive multiple copies of messages with the the IS_RELIABLE flag.  In this case, only one instance of the message is delivered to the application layer, and duplicates silently dropped.  However, because there is no reliability mechanism for acknowledgement messages, even if a destination has already delivered a particular message, an acknowledgement <span class="bcp14">MUST</span> be sent, as the previous acknowledgement might have been dropped.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
+<div id="acknowledgements">
+<section id="section-3.3.1">
+          <h4 id="name-acknowledgements">
+<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-acknowledgements" class="section-name selfRef">Acknowledgements</a>
+          </h4>
+<p id="section-3.3.1-1">The reliability mechanism requires the sending of acknowledgements from the destination back to the source.  These content of these acknowledgements depends on whether the acknowledgement concerns a message that is part of an ordered sequence or not.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.1-2">Acknowledgements <span class="bcp14">MAY</span> be sent immediately, but because an acknowledgement message is in general very small, it is <span class="bcp14">RECOMMENDED</span> that individual acknowledgements be accumulated and send in the same bundle as an outgoing protocol specific message if possible, reducing the number of small bundles in the network.  Of course, if no outgoing messages are sent in a timely manner, accumulated acknowledgements <span class="bcp14">MUST</span> be sent promptly anyway in order to ensure progress.  The exact details of how much time is to be spent accumulating acknowledgements <span class="bcp14">MUST</span> be defined in a particular application protocol.<a href="#section-3.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.3.1-3">Although acknowledgements may piggyback reliable messages, they are not part of the message to be reliably delivered, and hence must be assumed unreliable and resent.<a href="#section-3.3.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="unsequenced-acknowledgement">
+<section id="section-3.3.2">
+          <h4 id="name-unsequenced-acknowledgement">
+<a href="#section-3.3.2" class="section-number selfRef">3.3.2. </a><a href="#name-unsequenced-acknowledgement" class="section-name selfRef">Unsequenced Acknowledgement</a>
+          </h4>
+<p id="section-3.3.2-1">If a message is received with the IS_RELIABLE flag, but without a SEQUENCE_ID, then the acknowledgement <span class="bcp14">MUST</span> include the MESSAGE_ID of the received message.<a href="#section-3.3.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sequenced-acknowledgement">
+<section id="section-3.3.3">
+          <h4 id="name-sequenced-acknowledgement">
+<a href="#section-3.3.3" class="section-number selfRef">3.3.3. </a><a href="#name-sequenced-acknowledgement" class="section-name selfRef">Sequenced Acknowledgement</a>
+          </h4>
+<p id="section-3.3.3-1">If a message is received with the IS_RELIABLE flag and a SEQUENCE_ID and SEQUENCE_NUMBER, then the acknowledgement <span class="bcp14">MUST</span> include the SEQUENCE_ID and SEQUENCE_NUMBER of the message.<a href="#section-3.3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.3-2">It is important to note that the acknowledgement of the message <span class="bcp14">MUST</span> be sent, even if the message itself is queued up awaiting the arrival of a message with a prior SEQUENCE_NUMBER.  This behaviour enforces selective acknowledgement, whereby the sender receives notification that not only has a message been lost, but that later messages have arrived.  This mechanism allows senders to pipeline many message in an ordered sequence, but such a mechanism <span class="bcp14">MUST</span> be defined in a particular application protocol.<a href="#section-3.3.3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 </section>
