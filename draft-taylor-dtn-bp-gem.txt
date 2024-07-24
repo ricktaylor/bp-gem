@@ -1,0 +1,186 @@
+
+
+
+
+Delay/Disruption Tolerant Networking                           R. Taylor
+Internet-Draft                                         High Frontier Ltd
+Intended status: Standards Track                            24 July 2024
+Expires: 25 January 2025
+
+
+         Generic Encapsulation of Messages for Bundle Protocol
+                     draft-taylor-dtn-bp-gem-latest
+
+Abstract
+
+   As the availability of Bundle Protocol version 7 [!RFC9171] becomes
+   more pervasive, there is increasing need to port existing network
+   services designed for the terrestrial Internet to function correctly
+   and efficiently over Bundle Protocol.  This document introduces 2
+   modes: Tunnel mode, whereby opaque messages are encapsulated and
+   forwarded from an ingress gateway, and decapsulated at an egress
+   gateway, across a Bundle Protocol segment of the end to end path; and
+   Transport mode, whereby application messages are delivered from host
+   to host using the Bundle Protocol as the end-to-end message transport
+   protocol.
+
+About This Document
+
+   This note is to be removed before publishing as an RFC.
+
+   The latest revision of this draft can be found at
+   https://ricktaylor.github.io/bp-gem/draft-taylor-dtn-bp-gem.html.
+   Status information for this document may be found at
+   https://datatracker.ietf.org/doc/draft-taylor-dtn-bp-gem/.
+
+   Discussion of this document takes place on the Delay/Disruption
+   Tolerant Networking Working Group mailing list (mailto:dtn@ietf.org),
+   which is archived at https://mailarchive.ietf.org/arch/browse/dtn/.
+   Subscribe at https://www.ietf.org/mailman/listinfo/dtn/.
+
+   Source for this draft and an issue tracker can be found at
+   https://github.com/ricktaylor/bp-gem.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 25 January 2025.
+
+Copyright Notice
+
+   Copyright (c) 2024 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+Table of Contents
+
+   1.  Introduction
+   2.  Conventions and Definitions
+   3.  Generic encapsulation
+     3.1.  Abstract information fields
+   4.  Security Considerations
+   5.  IANA Considerations
+   6.  Normative References
+   Acknowledgments
+   Author's Address
+
+1.  Introduction
+
+   Bundle Protocol version 7 is fundamentally a message passing
+   protocol.  Individual messages are encapsulated as the opaque payload
+   of bundles, and the bundles are transported across the network using
+   just the information in the bundle envelope.  This encapsulation is
+   sufficiently general purpose that porting existing message-based
+   applications to use the bundle protocol is reasonably simple, and
+   there is sufficient commonality of required behaviour that general
+   rules can be recommended.
+
+   The encapsulation mechanism described address the following
+   requirements:
+
+   1.  The delivery of application messages across a network that
+       features Bundle Protocol as part or all of the end-to-end path.
+
+   2.  The delivery of messages that may have a relative sequential
+       ordering.  I.e. message A must be delivered before message B,
+       even if re-ordering occurs within the network.
+
+   3.  The reliable delivery of some or all messages, such that an
+       application designed to use a reliable transport layer can
+       continue to hold the reliability assumption when operating over
+       Bundle Protocol.
+
+   This document provides mechanisms that are applicable to applications
+   and services that exchange framed messages.  The mechanisms described
+   are not suitable for byte-streaming applications.
+
+2.  Conventions and Definitions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   capitals, as shown here.
+
+3.  Generic encapsulation
+
+3.1.  Abstract information fields
+
+   In order to deliver a particular application specific message from
+   source to destination, the following information fields must be
+   known:
+
+   *  MESSAGE_ID: The unique identifier of the message.  If two messages
+      have the same identifier then the message content must be
+      logically identical, such that either message may be discarded
+      without breaking a higher-level message protocol.
+
+   *  SOURCE_ID: The identity of the source of the message.
+
+   *  DESTINATION_ID: The identity of the destination of the message.
+
+   *  SEQUENCE_ID (optional): If messages have a temporal relationship,
+      such that one message must be processed before another, the
+      identity of the sequence.
+
+   *  SEQUENCE_NUMBER (optional): If messages have a temporal
+      relationship, such that one message must be processed before
+      another, the order of the message within the sequence.
+
+   *  ACK_REQUIRED (optional): If an explicit acknowledgement of the
+      successful delivery of a message is required from the receiver.
+
+   It may well be the case that some or all of these required
+   information fields may be encoded in the application message format,
+   or map directly to a field in the Bundle Protocol itself, but they
+   are defined here in abstract terms in order to support the protocol
+   specifications that follow.
+
+4.  Security Considerations
+
+   TODO Security
+
+5.  IANA Considerations
+
+   This document has no IANA actions.
+
+6.  Normative References
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/rfc/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+Acknowledgments
+
+   TODO acknowledge.
+
+Author's Address
+
+   Rick Taylor
+   High Frontier Ltd
+   Email: rick.taylor@highfrontier.co.uk
