@@ -9,7 +9,7 @@ number:
 date:
 consensus: true
 v: 3
-area: "Transport"
+area: "Internet"
 workgroup: "Delay/Disruption Tolerant Networking"
 keyword:
  - DTN
@@ -21,7 +21,7 @@ venue:
   mail: "dtn@ietf.org"
   arch: "https://mailarchive.ietf.org/arch/browse/dtn/"
   github: "ricktaylor/bp-gem"
-  latest: "https://ricktaylor.github.io/bp-gem/draft-taylor-dtn-bp-gem-update.html"
+  latest: "https://ricktaylor.github.io/bp-gem/draft-taylor-dtn-bp-gem.html"
 
 author:
  -
