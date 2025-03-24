@@ -1,3 +1,5 @@
+<!-- regenerate: on (set to off if you edit this file) -->
+
 # Generic Encapsulation of Messages for Bundle Protocol
 
 This is the working area for the individual Internet-Draft, "Generic Encapsulation of Messages for Bundle Protocol".
